@@ -7,17 +7,19 @@ const items = ref([
   { id: 2, label: 'peers', count: 1 },
   { id: 3, label: 'orange', count: 1 }
 ])
-const newItem = ref({ label: '', count: 1 })
+const initialItem = { label: '', count: 1 }
+const newItem = ref({ ...initialItem })
 const newItemHighPriority = ref(false)
 
-const addItem = (item) => {
-  items.value.push({ id: items.value.length + 1, ...item })
+const addItem = () => {
+  items.value.push({ id: items.value.length + 1, ...newItem.value })
+  newItem.value = initialItem
 }
 </script>
 
 <template>
   <h1>{{ header }}</h1>
-  <form class="add-item-form" @submit.prevent="addItem(newItem)">
+  <form class="add-item-form" @submit.prevent="addItem">
     <input type="number" v-model.number="newItem.count" min="1" required />
     <input type="text" v-model.trim="newItem.label" placeholder="Add an item" required />
     <label>
