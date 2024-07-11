@@ -1,13 +1,21 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const header = ref('Shopping List App')
+
+const characterCount = computed(() => {
+  return newItem.value.label.length
+})
+
 const editing = ref(false)
 const items = ref([
   { id: 1, label: 'apple', count: 1, purchased: true, highPriority: false },
   { id: 2, label: 'peers', count: 1, purchased: true, highPriority: false },
   { id: 3, label: 'orange', count: 1, purchased: false, highPriority: true }
 ])
+
+const reversedItems = computed(() => [...items.value].reverse())
+
 const initialItem = { label: '', count: 1, purchased: false, highPriority: false }
 const newItem = ref({ ...initialItem })
 const newItemHighPriority = ref(false)
@@ -41,17 +49,24 @@ const togglePurchased = (item) => {
     <button class="btn btn-primary" v-else @click="doEdit">Show</button>
   </div>
   <form class="add-item-form" v-if="editing" @submit.prevent="addItem">
-    <input type="number" v-model.number="newItem.count" min="1" required />
-    <input type="text" v-model.trim="newItem.label" placeholder="Add an item" required />
+    <input type="number" v-model.number="newItem.count" min="1" max="99" required />
+    <input
+      type="text"
+      v-model.trim="newItem.label"
+      placeholder="Add an item"
+      maxlength="50"
+      required
+    />
     <label>
       <input type="checkbox" v-model="newItemHighPriority" />
       High Priority
     </label>
     <button class="btn btn-primary" :disabled="newItem.label.length <= 0">Save item</button>
   </form>
+  <p class="counter">{{ characterCount }}/50</p>
   <ul>
     <li
-      v-for="item in items"
+      v-for="item in reversedItems"
       :key="item.id"
       :class="{ strikeout: item.purchased, priority: item.highPriority }"
       @click="togglePurchased(item)"
