@@ -8,18 +8,25 @@ const items = ref([
   { id: 2, label: 'peers', count: 1, purchased: true, highPriority: false },
   { id: 3, label: 'orange', count: 1, purchased: false, highPriority: true }
 ])
-const initialItem = { label: '', count: 1 }
+const initialItem = { label: '', count: 1, purchased: false, highPriority: false }
 const newItem = ref({ ...initialItem })
 const newItemHighPriority = ref(false)
 
 const addItem = () => {
-  items.value.push({ id: items.value.length + 1, ...newItem.value })
+  items.value.push({
+    id: items.value.length + 1,
+    ...newItem.value,
+    highPriority: newItemHighPriority.value
+  })
+  console.log(items.value)
   newItem.value = { ...initialItem }
+  newItemHighPriority.value = false
 }
 
 const doEdit = () => {
   editing.value = !editing.value
   newItem.value = { ...initialItem }
+  newItemHighPriority.value = false
 }
 
 const togglePurchased = (item) => {
