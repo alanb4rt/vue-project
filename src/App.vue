@@ -36,7 +36,7 @@ const doEdit = () => {
       <input type="checkbox" v-model="newItemHighPriority" />
       High Priority
     </label>
-    <button class="btn btn-primary">Save item</button>
+    <button class="btn btn-primary" :disabled="newItem.label.length <= 0">Save item</button>
   </form>
   <ul>
     <li v-for="item in items" :key="item.id">{{ item.count + ' ' + item.label }}</li>
