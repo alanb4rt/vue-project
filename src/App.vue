@@ -4,9 +4,9 @@ import { ref } from 'vue'
 const header = ref('Shopping List App')
 const editing = ref(false)
 const items = ref([
-  { id: 1, label: 'apple', count: 1 },
-  { id: 2, label: 'peers', count: 1 },
-  { id: 3, label: 'orange', count: 1 }
+  { id: 1, label: 'apple', count: 1, purchased: true, highPriority: false },
+  { id: 2, label: 'peers', count: 1, purchased: true, highPriority: false },
+  { id: 3, label: 'orange', count: 1, purchased: false, highPriority: true }
 ])
 const initialItem = { label: '', count: 1 }
 const newItem = ref({ ...initialItem })
@@ -20,6 +20,10 @@ const addItem = () => {
 const doEdit = () => {
   editing.value = !editing.value
   newItem.value = { ...initialItem }
+}
+
+const togglePurchased = (item) => {
+  item.purchased = !item.purchased
 }
 </script>
 
@@ -39,8 +43,14 @@ const doEdit = () => {
     <button class="btn btn-primary" :disabled="newItem.label.length <= 0">Save item</button>
   </form>
   <ul>
-    <li v-for="item in items" :key="item.id">{{ item.count + ' ' + item.label }}</li>
-    <!-- <li v-for="{ id, label, count } in items" :key="id">{{ count + ' ' + label }}</li> -->
+    <li
+      v-for="item in items"
+      :key="item.id"
+      :class="{ strikeout: item.purchased, priority: item.highPriority }"
+      @click="togglePurchased(item)"
+    >
+      {{ item.count + ' ' + item.label }}
+    </li>
   </ul>
   <p v-if="!items.length">Nothing to see here</p>
 </template>
