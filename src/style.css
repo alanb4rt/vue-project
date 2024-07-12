@@ -27,9 +27,12 @@ body {
 }
 
 .counter {
-  font-size: 0.8rem;
-  padding-left: 10px;
-  padding-right: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 0.6rem;
+  padding: 2px 4px;
+  line-height: 1;
 }
 
 #app {
@@ -104,10 +107,12 @@ li input {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 1rem;
 }
 
 .add-item-form input {
-  width: 70%;
   border-radius: 3px;
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   border: 1px solid #f1f5f8;
@@ -116,7 +121,6 @@ li input {
   box-sizing: border-box;
   font-size: 1rem;
   letter-spacing: 0.5px;
-  margin: 0.5rem 0;
 }
 
 .btn {

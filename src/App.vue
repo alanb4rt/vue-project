@@ -44,27 +44,30 @@ const togglePurchased = (item) => {
 
 <template>
   <div class="header">
-    <h1>{{ header }}</h1>
+    <h1 class="text-4xl font-bold">{{ header }}</h1>
     <button class="btn" v-if="editing" @click="doEdit">Cancel</button>
     <button class="btn btn-primary" v-else @click="doEdit">Show</button>
   </div>
   <form class="add-item-form" v-if="editing" @submit.prevent="addItem">
-    <input type="number" v-model.number="newItem.count" min="1" max="99" required />
-    <input
-      type="text"
-      v-model.trim="newItem.label"
-      placeholder="Add an item"
-      maxlength="50"
-      required
-    />
-    <label>
+    <input type="number" class="w-20" v-model.number="newItem.count" min="1" max="99" required />
+    <div class="relative flex-1">
+      <input
+        type="text"
+        class="w-full"
+        v-model.trim="newItem.label"
+        placeholder="Add an item"
+        maxlength="50"
+        required
+      />
+      <p class="counter" v-if="editing">{{ characterCount }}/50</p>
+    </div>
+    <label class="w-fit">
       <input type="checkbox" v-model="newItemHighPriority" />
       High Priority
     </label>
     <button class="btn btn-primary" :disabled="newItem.label.length <= 0">Save item</button>
   </form>
-  <p class="counter">{{ characterCount }}/50</p>
-  <ul>
+  <ul id="shopping-list">
     <li
       v-for="item in reversedItems"
       :key="item.id"
