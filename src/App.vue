@@ -14,7 +14,10 @@ const items = ref([
   { id: 3, label: 'orange', count: 1, purchased: false, highPriority: true }
 ])
 
-const reversedItems = computed(() => [...items.value].reverse())
+const hidePurchased = ref(false)
+const filteredItems = computed(() => {
+  return hidePurchased.value ? items.value.filter((item) => !item.purchased) : items.value
+})
 
 const initialItem = { label: '', count: 1, purchased: false, highPriority: false }
 const newItem = ref({ ...initialItem })
@@ -68,8 +71,11 @@ const togglePurchased = (item) => {
     <button class="btn btn-primary" :disabled="newItem.label.length <= 0">Save item</button>
   </form>
   <ul id="shopping-list">
+    <button class="btn btn-primary" @click="hidePurchased = !hidePurchased">
+      Hide purchased item
+    </button>
     <li
-      v-for="item in reversedItems"
+      v-for="item in filteredItems"
       :key="item.id"
       :class="{ strikeout: item.purchased, priority: item.highPriority }"
       @click="togglePurchased(item)"
@@ -77,5 +83,5 @@ const togglePurchased = (item) => {
       {{ item.count + ' ' + item.label }}
     </li>
   </ul>
-  <p v-if="!items.length">Nothing to see here</p>
+  <p v-if="!filteredItems.length">Nothing to see here</p>
 </template>
