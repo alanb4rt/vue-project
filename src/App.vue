@@ -1,5 +1,6 @@
 <script setup>
 import { ref, computed } from 'vue'
+import ListItem from './components/ListItem.vue'
 
 const header = ref('Shopping List App')
 
@@ -70,18 +71,16 @@ const togglePurchased = (item) => {
     </label>
     <button class="btn btn-primary" :disabled="newItem.label.length <= 0">Save item</button>
   </form>
+  <button class="btn btn-primary" @click="hidePurchased = !hidePurchased">
+    Hide purchased item
+  </button>
   <ul id="shopping-list">
-    <button class="btn btn-primary" @click="hidePurchased = !hidePurchased">
-      Hide purchased item
-    </button>
-    <li
+    <ListItem
       v-for="item in filteredItems"
       :key="item.id"
-      :class="{ strikeout: item.purchased, priority: item.highPriority }"
+      :item="item"
       @click="togglePurchased(item)"
-    >
-      {{ item.count + ' ' + item.label }}
-    </li>
+    />
   </ul>
   <p v-if="!filteredItems.length">Nothing to see here</p>
 </template>
