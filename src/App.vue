@@ -8,7 +8,7 @@ const header = ref('Shopping List App')
 const editing = ref(false)
 const items = ref([
   { id: 1, label: 'apple', count: 1, purchased: true, highPriority: false },
-  { id: 2, label: 'peers', count: 1, purchased: true, highPriority: false },
+  { id: 2, label: 'pear', count: 1, purchased: true, highPriority: false },
   { id: 3, label: 'orange', count: 1, purchased: false, highPriority: true }
 ])
 
