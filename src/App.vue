@@ -22,23 +22,19 @@ const filteredItems = computed(() => {
 
 const initialItem = { label: '', count: 1, purchased: false, highPriority: false }
 const newItem = ref({ ...initialItem })
-const newItemHighPriority = ref(false)
 
 const addItem = () => {
   items.value.push({
     id: items.value.length + 1,
-    ...newItem.value,
-    highPriority: newItemHighPriority.value
+    ...newItem.value
   })
   console.log(items.value)
   newItem.value = { ...initialItem }
-  newItemHighPriority.value = false
 }
 
 const doEdit = () => {
   editing.value = !editing.value
   newItem.value = { ...initialItem }
-  newItemHighPriority.value = false
 }
 
 const togglePurchased = (item) => {
@@ -66,7 +62,7 @@ const togglePurchased = (item) => {
       <p class="counter" v-if="editing">{{ characterCount }}/50</p>
     </div>
     <label class="w-fit">
-      <input type="checkbox" v-model="newItemHighPriority" />
+      <input type="checkbox" v-model="newItem.highPriority" />
       High Priority
     </label>
     <button class="btn btn-primary" :disabled="newItem.label.length <= 0">Save item</button>
