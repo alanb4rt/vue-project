@@ -41,7 +41,7 @@ const togglePurchased = (item) => {
   </div>
   <FormItem v-if="editing" @submitItem="addItem" />
   <button class="btn btn-primary" @click="hidePurchased = !hidePurchased">
-    Hide purchased item
+    {{ hidePurchased ? 'Show all item' : 'Hide purchased item' }}
   </button>
   <ul id="shopping-list">
     <ListItem
