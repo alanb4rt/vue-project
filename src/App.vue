@@ -1,12 +1,9 @@
 <script setup>
 import { ref, computed } from 'vue'
 import ListItem from './components/ListItem.vue'
+import FormItem from './components/FormItem.vue'
 
 const header = ref('Shopping List App')
-
-const characterCount = computed(() => {
-  return newItem.value.label.length
-})
 
 const editing = ref(false)
 const items = ref([
@@ -20,21 +17,15 @@ const filteredItems = computed(() => {
   return hidePurchased.value ? items.value.filter((item) => !item.purchased) : items.value
 })
 
-const initialItem = { label: '', count: 1, purchased: false, highPriority: false }
-const newItem = ref({ ...initialItem })
-
-const addItem = () => {
+const addItem = (item) => {
   items.value.push({
     id: items.value.length + 1,
-    ...newItem.value
+    ...item
   })
-  console.log(items.value)
-  newItem.value = { ...initialItem }
 }
 
 const doEdit = () => {
   editing.value = !editing.value
-  newItem.value = { ...initialItem }
 }
 
 const togglePurchased = (item) => {
@@ -48,25 +39,7 @@ const togglePurchased = (item) => {
     <button class="btn btn-cancel" v-if="editing" @click="doEdit">Cancel</button>
     <button class="btn btn-primary" v-else @click="doEdit">Show</button>
   </div>
-  <form class="add-item-form" v-if="editing" @submit.prevent="addItem">
-    <input type="number" class="w-20" v-model.number="newItem.count" min="1" max="99" required />
-    <div class="relative flex-1">
-      <input
-        type="text"
-        class="w-full"
-        v-model.trim="newItem.label"
-        placeholder="Add an item"
-        maxlength="50"
-        required
-      />
-      <p class="counter" v-if="editing">{{ characterCount }}/50</p>
-    </div>
-    <label class="w-fit">
-      <input type="checkbox" v-model="newItem.highPriority" />
-      High Priority
-    </label>
-    <button class="btn btn-primary" :disabled="newItem.label.length <= 0">Save item</button>
-  </form>
+  <FormItem v-if="editing" @submitItem="addItem" />
   <button class="btn btn-primary" @click="hidePurchased = !hidePurchased">
     Hide purchased item
   </button>
